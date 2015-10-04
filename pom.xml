@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.vurtatoo</groupId>
-	<artifactId>afisha</artifactId>
-	<name>Afisha</name>
+	<groupId>by.ladyka</groupId>
+	<artifactId>pass</artifactId>
+	<name>password manager</name>
 	<packaging>war</packaging>
-	<version>0.0.3</version>
+	<version>0.1</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -279,9 +279,9 @@
 		</plugins>
 		<finalName>pass</finalName>
 	</build>
-	<url>http://havefun.by/afisha/</url>
+	<url>http://ladyka.tk/pass/</url>
 	<issueManagement>
-		<system>github</system>
-		<url>https://github.com/vurtatoo/afisha/issues</url>
+		<system>bitbucket.org</system>
+		<url>https://bitbucket.org/akolbord/password-manager</url>
 	</issueManagement>
 </project>
