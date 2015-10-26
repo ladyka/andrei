@@ -26,6 +26,6 @@ public class PasswordDao extends BaseDAO {
         Criteria criteria = getCriteria(WebSite.class);
         criteria.add(d);
         criteria.addOrder(Order.asc(WebSite.COL_ID));
-        return criteria.list();
+        return (List<WebSite>) criteria.list();
     }
 }

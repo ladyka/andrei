@@ -21,7 +21,7 @@ public class PassController {
     @Autowired
     PasswordService ps;
 
-    @RequestMapping(value = "/password", method = RequestMethod.PUT)
+    @RequestMapping(value = "/password/put")
     public @ResponseBody
     WebSite create(Model model, Principal principal,String url, String email, String login, String password, String description) {
         return ps.create(url, email, login, password, description);
@@ -33,13 +33,13 @@ public class PassController {
         return ps.get(query);
     }
 
-    @RequestMapping(value = "/password", method = RequestMethod.POST)
+    @RequestMapping(value = "/password/update", method = RequestMethod.POST)
     public @ResponseBody
     WebSite updatev(Model model, Principal principal,int id, String url, String email, String login, String password, String description) {
         return ps.edit(id, url, email, login, password, description);
     }
 
-    @RequestMapping(value = "/password", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/password/delete")
     public @ResponseBody
     boolean delete(Model model, Principal principal,int id) {
         return ps.delete(id);
