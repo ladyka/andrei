@@ -23,8 +23,8 @@ public class PassController {
 
     @RequestMapping(value = "/password/put")
     public @ResponseBody
-    WebSite create(Model model, Principal principal,String url, String email, String login, String password, String description) {
-        return ps.create(url, email, login, password, description);
+    WebSite create(Model model, Principal principal,String url, String email, String login, String myPassword, String description) {
+        return ps.create(url, email, login, myPassword, description);
     }
 
     @RequestMapping(value = "/password", method = RequestMethod.GET)
@@ -35,8 +35,8 @@ public class PassController {
 
     @RequestMapping(value = "/password/update", method = RequestMethod.POST)
     public @ResponseBody
-    WebSite updatev(Model model, Principal principal,int id, String url, String email, String login, String password, String description) {
-        return ps.edit(id, url, email, login, password, description);
+    WebSite updatev(Model model, Principal principal,int id, String url, String email, String login, String myPassword, String description) {
+        return ps.edit(id, url, email, login, myPassword, description);
     }
 
     @RequestMapping(value = "/password/delete")

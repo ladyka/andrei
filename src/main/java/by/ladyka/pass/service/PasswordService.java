@@ -57,7 +57,7 @@ public class PasswordService {
         webSite.setEmail(email);
         webSite.setLogin(login);
         webSite.setMypassword(password);
-        webSite.setChangeTime(new Timestamp(System.nanoTime()));
+        webSite.setChangeTime(new Timestamp(System.currentTimeMillis()));
         webSite.setOtherInfo(description);
         dao.saveOrUpdate(webSite);
         return webSite;
