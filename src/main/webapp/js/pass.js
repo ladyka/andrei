@@ -139,7 +139,7 @@ $(document).ready(function () {
             var myPassword = $('#mypassword').val();
             var otherInfo = $('#otherInfo').val();
 
-            if (!((siteUrl == "") || (email == "") || (login == "") || (myPassword == ""))) {
+            //if (!((siteUrl == "") || (email == "") || (login == "") || (myPassword == ""))) {
                 if (id == 0) {
                     $.ajax({
                         method: "POST",
@@ -168,9 +168,9 @@ $(document).ready(function () {
                 }
                 reloadData();
                 toastr["info"]("Ушло", "Save");
-            } else {
-                toastr["error"]("Обязательные поля пусты", "Cancel");
-            }
+            //} else {
+            //    toastr["error"]("Обязательные поля пусты", "Cancel");
+            //}
         },
         cancel: function (button) {
             toastr["warning"]("Отменено", "Cancel");
