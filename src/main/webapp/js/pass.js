@@ -26,7 +26,7 @@ $(document).ready(function () {
         $('#login').val(row.login);
         $('#mypassword').val(row.mypassword);
         $('#otherInfo').val(row.otherInfo);
-    })
+    });
 
     function clearForm() {
         $('#id').val(0);
@@ -41,9 +41,9 @@ $(document).ready(function () {
         $('#passwords').bootstrapTable('refresh',
             {
                 silent: true,
-                url: "password",
+                url: "password"
             });
-    };
+    }
 
     $('#clear').click(function () {
         clearForm();
@@ -51,7 +51,7 @@ $(document).ready(function () {
     });
 
     var checkFields = function () {
-
+        return true;
     };
     $("#create").confirm({
         text: "Are you sure you want to create that record?",
@@ -61,30 +61,31 @@ $(document).ready(function () {
             var email = $('#email').val();
             var login = $('#login').val();
             var myPassword = $('#mypassword').val();
-            var otherInfo = $('#otherInfo').val();
-
-            if (checkFields() ) {
-
-            }
-
-            //if (!(($('#siteUrl').val() == "") || ($('#email').val() == "") || ($('#login').val() == "") || ($('#mypassword').val() == ""))) {
+            var description = $('#otherInfo').val();
+            if (checkFields()) {
                 $.ajax({
                     method: "POST",
                     url: "password/put",
                     data: {
-                        id: id,
                         siteUrl: siteUrl,
                         email: email,
                         login: login,
                         myPassword: myPassword,
-                        otherInfo: otherInfo
+                        description: description
                     }
                 });
                 reloadData();
                 toastr["info"]("Ушло", "Save");
-            //} else {
-            //    toastr["error"]("Обязательные поля пусты", "Cancel");
-            //}
+            } else {
+                toastr["error"]("Обязательные поля пусты", "Cancel");
+            }
+            //
+            ////if (!(($('#siteUrl').val() == "") || ($('#email').val() == "") || ($('#login').val() == "") || ($('#mypassword').val() == ""))) {
+
+
+            ////} else {
+
+            ////}
 
 
         },
@@ -137,37 +138,37 @@ $(document).ready(function () {
             var email = $('#email').val();
             var login = $('#login').val();
             var myPassword = $('#mypassword').val();
-            var otherInfo = $('#otherInfo').val();
+            var description = $('#otherInfo').val();
 
             //if (!((siteUrl == "") || (email == "") || (login == "") || (myPassword == ""))) {
-                if (id == 0) {
-                    $.ajax({
-                        method: "POST",
-                        url: "password/update",
-                        data: {
-                            siteUrl: siteUrl,
-                            email: email,
-                            login: login,
-                            myPassword: myPassword,
-                            otherInfo: otherInfo
-                        }
-                    });
-                } else {
-                    $.ajax({
-                        method: "POST",
-                        url: "password/put",
-                        data: {
-                            id: id,
-                            siteUrl: siteUrl,
-                            email: email,
-                            login: login,
-                            myPassword: myPassword,
-                            otherInfo: otherInfo
-                        }
-                    });
-                }
-                reloadData();
-                toastr["info"]("Ушло", "Save");
+            if (id != 0) {
+                $.ajax({
+                    method: "POST",
+                    url: "password/update",
+                    data: {
+                        id : id,
+                        siteUrl: siteUrl,
+                        email: email,
+                        login: login,
+                        myPassword: myPassword,
+                        description: description
+                    }
+                });
+            } else {
+                $.ajax({
+                    method: "POST",
+                    url: "password/put",
+                    data: {
+                        siteUrl: siteUrl,
+                        email: email,
+                        login: login,
+                        myPassword: myPassword,
+                        description: description
+                    }
+                });
+            }
+            reloadData();
+            toastr["info"]("Ушло", "Save");
             //} else {
             //    toastr["error"]("Обязательные поля пусты", "Cancel");
             //}

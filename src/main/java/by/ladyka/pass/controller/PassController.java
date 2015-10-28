@@ -13,7 +13,7 @@ import java.security.Principal;
 import java.util.List;
 
 /**
- * Created by user on 4.10.15.
+ * Created by Ladyka Andrei on 4.10.15.
  */
 @Controller
 public class PassController {
@@ -23,8 +23,8 @@ public class PassController {
 
     @RequestMapping(value = "/password/put")
     public @ResponseBody
-    WebSite create(Model model, Principal principal,String url, String email, String login, String myPassword, String description) {
-        return ps.create(url, email, login, myPassword, description);
+    WebSite create(Model model, Principal principal,String siteUrl, String email, String login, String myPassword, String description) {
+        return ps.create(siteUrl, email, login, myPassword, description);
     }
 
     @RequestMapping(value = "/password", method = RequestMethod.GET)
@@ -35,8 +35,8 @@ public class PassController {
 
     @RequestMapping(value = "/password/update", method = RequestMethod.POST)
     public @ResponseBody
-    WebSite updatev(Model model, Principal principal,int id, String url, String email, String login, String myPassword, String description) {
-        return ps.edit(id, url, email, login, myPassword, description);
+    WebSite updatev(Model model, Principal principal,int id, String siteUrl, String email, String login, String myPassword, String description) {
+        return ps.edit(id, siteUrl, email, login, myPassword, description);
     }
 
     @RequestMapping(value = "/password/delete")
