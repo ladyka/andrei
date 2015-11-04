@@ -281,7 +281,7 @@
 	</build>
 	<url>http://ladyka.tk/pass/</url>
 	<issueManagement>
-		<system>bitbucket.org</system>
-		<url>https://bitbucket.org/akolbord/password-manager</url>
+		<system>github.com</system>
+		<url>https://github.com/ladyka/password-manager</url>
 	</issueManagement>
 </project>
