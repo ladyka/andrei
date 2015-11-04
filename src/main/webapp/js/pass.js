@@ -18,7 +18,7 @@ $(document).ready(function () {
         "hideMethod": "fadeOut"
     };
 
-    $("#passwords").on('click-row.bs.table', function (e, row, $element) {
+    $("#passwords").on('click-row.bs.table', function (e, row) {
         //$result.text('Event: click-row.bs.table, data: ' + JSON.stringify(row));
         $('#id').val(row.id);
         $('#siteUrl').val(row.siteUrl);
@@ -35,7 +35,9 @@ $(document).ready(function () {
         $('#login').val("");
         $('#mypassword').val("");
         $('#otherInfo').val("");
+        toastr["info"]("Oчищено", "Clear");
     }
+    clearForm();
 
     function reloadData() {
         $('#passwords').bootstrapTable('refresh',
@@ -51,12 +53,22 @@ $(document).ready(function () {
     });
 
     var checkFields = function () {
+
+        //if (!((siteUrl == "") || (email == "") || (login == "") || (myPassword == ""))) {
+        //
+        ////if (!(($('#siteUrl').val() == "") || ($('#email').val() == "") || ($('#login').val() == "") || ($('#mypassword').val() == ""))) {
+
+
+        ////} else {
+
+        ////}
         return true;
     };
+
     $("#create").confirm({
         text: "Are you sure you want to create that record?",
         title: "Confirmation required",
-        confirm: function (button) {
+        confirm: function () {
             var siteUrl = $('#siteUrl').val();
             var email = $('#email').val();
             var login = $('#login').val();
@@ -79,17 +91,8 @@ $(document).ready(function () {
             } else {
                 toastr["error"]("Обязательные поля пусты", "Cancel");
             }
-            //
-            ////if (!(($('#siteUrl').val() == "") || ($('#email').val() == "") || ($('#login').val() == "") || ($('#mypassword').val() == ""))) {
-
-
-            ////} else {
-
-            ////}
-
-
         },
-        cancel: function (button) {
+        cancel: function () {
             toastr["warning"]("Отменено", "Cancel");
         }
         ,
@@ -105,7 +108,7 @@ $(document).ready(function () {
     $("#delete").confirm({
         text: "Are you sure you want to delete that record?",
         title: "Confirmation required",
-        confirm: function (button) {
+        confirm: function () {
             var id = $('#id').val();
             $.ajax({
                 method: "POST",
@@ -117,7 +120,7 @@ $(document).ready(function () {
             reloadData();
             toastr["info"]("Ушло", "Delete");
         },
-        cancel: function (button) {
+        cancel: function () {
             toastr["warning"]("Отменено", "Cancel");
         },
         confirmButton: "Yes I am",
@@ -132,7 +135,7 @@ $(document).ready(function () {
     $("#save").confirm({
         text: "Are you sure you want to save that record?",
         title: "Confirmation required",
-        confirm: function (button) {
+        confirm: function () {
             var id = $('#id').val();
             var siteUrl = $('#siteUrl').val();
             var email = $('#email').val();
@@ -140,7 +143,7 @@ $(document).ready(function () {
             var myPassword = $('#mypassword').val();
             var description = $('#otherInfo').val();
 
-            //if (!((siteUrl == "") || (email == "") || (login == "") || (myPassword == ""))) {
+            if (checkFields()) {
             if (id != 0) {
                 $.ajax({
                     method: "POST",
@@ -169,11 +172,11 @@ $(document).ready(function () {
             }
             reloadData();
             toastr["info"]("Ушло", "Save");
-            //} else {
-            //    toastr["error"]("Обязательные поля пусты", "Cancel");
-            //}
+            } else {
+                toastr["error"]("Обязательные поля пусты", "Cancel");
+            }
         },
-        cancel: function (button) {
+        cancel: function () {
             toastr["warning"]("Отменено", "Cancel");
         },
         confirmButton: "Yes I am",
@@ -183,5 +186,11 @@ $(document).ready(function () {
         cancelButtonClass: "btn-default",
         dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
     });
-})
-;
+
+    $('#pass-table').slimScroll({
+        color: '#00f',
+        size: '10px',
+        height: '600px',
+        alwaysVisible: true
+    });
+});
