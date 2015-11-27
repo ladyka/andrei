@@ -53,16 +53,7 @@ $(document).ready(function () {
     });
 
     var checkFields = function () {
-
-        //if (!((siteUrl == "") || (email == "") || (login == "") || (myPassword == ""))) {
-        //
-        ////if (!(($('#siteUrl').val() == "") || ($('#email').val() == "") || ($('#login').val() == "") || ($('#mypassword').val() == ""))) {
-
-
-        ////} else {
-
-        ////}
-        return true;
+        return (!(($('#siteUrl').val() == "") || ($('#email').val() == "") || ($('#login').val() == "") || ($('#mypassword').val() == "")));
     };
 
     $("#create").confirm({
