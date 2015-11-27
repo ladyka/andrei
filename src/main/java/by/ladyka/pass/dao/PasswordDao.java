@@ -15,6 +15,7 @@ import java.util.List;
 @Service
 public class PasswordDao extends BaseDAO {
 
+    @SuppressWarnings( {"unchecked"})
     public List<WebSite> get(String query) {
         query = "%" + query + "%";
         Disjunction d = Restrictions.disjunction();
@@ -26,6 +27,6 @@ public class PasswordDao extends BaseDAO {
         Criteria criteria = getCriteria(WebSite.class);
         criteria.add(d);
         criteria.addOrder(Order.asc(WebSite.COL_ID));
-        return (List<WebSite>) criteria.list();
+        return criteria.list();
     }
 }
