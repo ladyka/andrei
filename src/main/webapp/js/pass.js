@@ -122,6 +122,14 @@ $(document).ready(function () {
         dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
     });
 
+    $("#randomPass").click(function() {
+        $('#mypassword').val(Math.random().toString(36).substring(7) +
+            Math.random().toString(36).substring(7).toUpperCase() +
+            Math.random().toString(36).substring(7) +
+            Math.random().toString(36).substring(7).toUpperCase());
+        toastr["info"]("Password", "Новый пароль сгенерирован и записан в соответствующее поле, но не сохранён");
+    });
+
 
     $("#save").confirm({
         text: "Are you sure you want to save that record?",
