@@ -3,13 +3,13 @@ package by.ladyka.pass.config;
 import by.ladyka.pass.PasswordManagerApplication;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
@@ -24,6 +24,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackageClasses = PasswordManagerApplication.class)
 public class JpaConfig implements TransactionManagementConfigurer {
+
+    public static String PackagesToScan = "by.ladyka";
 
     @Value("${dataSource.driverClassName}")
     private String driver;
@@ -50,24 +52,38 @@ public class JpaConfig implements TransactionManagementConfigurer {
         return new HikariDataSource(config);
     }
 
-    @Bean
-    public LocalContainerEntityManagerFactoryBean configureEntityManagerFactory() {
-        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        entityManagerFactoryBean.setDataSource(configureDataSource());
-        entityManagerFactoryBean.setPackagesToScan("by.ladyka");
-        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-
-        Properties jpaProperties = new Properties();
-        jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
-        //jpaProperties.put(org.hibernate.cfg.Environment.SQ, hbm2ddlAuto);
-        entityManagerFactoryBean.setJpaProperties(jpaProperties);
-
-        return entityManagerFactoryBean;
-    }
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean configureEntityManagerFactory() {
+//        LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+//        entityManagerFactoryBean.setDataSource(configureDataSource());
+//        entityManagerFactoryBean.setPackagesToScan(PackagesToScan);
+//        entityManagerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+//
+//        Properties jpaProperties = new Properties();
+//        jpaProperties.put(org.hibernate.cfg.Environment.DIALECT, dialect);
+//        //jpaProperties.put(org.hibernate.cfg.Environment.SQ, hbm2ddlAuto);
+//        entityManagerFactoryBean.setJpaProperties(jpaProperties);
+//
+//        return entityManagerFactoryBean;
+//    }
 
     @Bean
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return new JpaTransactionManager();
     }
 
+
+    @Bean
+    public SessionFactory sessionFactory() {
+        LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
+        localSessionFactoryBean.setDataSource(configureDataSource());
+        localSessionFactoryBean.setPackagesToScan(PackagesToScan);
+
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.setProperty("hibernate.dialect",dialect);
+        hibernateProperties.setProperty("hibernate.show_sql",Boolean.TRUE.toString());
+        localSessionFactoryBean.setHibernateProperties(hibernateProperties);
+
+        return localSessionFactoryBean.getObject();
+    }
 }

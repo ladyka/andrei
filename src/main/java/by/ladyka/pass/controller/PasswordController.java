@@ -2,8 +2,10 @@ package by.ladyka.pass.controller;
 
 import by.ladyka.pass.ExceptionHandlerController;
 import by.ladyka.pass.model.WebSite;
+import by.ladyka.pass.service.PasswordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +22,8 @@ import java.util.List;
 @RestController
 public class PasswordController extends ExceptionHandlerController {
 
-    //@Autowired
-    //PasswordService ps = null;
+    @Autowired
+    PasswordService ps;
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -37,7 +39,7 @@ public class PasswordController extends ExceptionHandlerController {
         //List<WebSite> l = ps.get(query);
         List<WebSite> l = new ArrayList<>();
         WebSite w = new WebSite().setId(-1);
-        w.setSiteUrl("su");
+        w.setSiteUrl(ps.toString());
         w.setOtherInfo("oi");
         w.setMypassword("mp");
         w.setLogin("l");
