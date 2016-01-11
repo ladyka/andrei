@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
+ * This is configuration file for spring-boot application
  * Created by AndreyLadyko on 1/6/2016.
  */
 @Configuration
@@ -74,7 +75,7 @@ public class JpaConfig implements TransactionManagementConfigurer {
 
 
     @Bean
-    public SessionFactory sessionFactory() {
+    public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
         localSessionFactoryBean.setDataSource(configureDataSource());
         localSessionFactoryBean.setPackagesToScan(PackagesToScan);
@@ -84,6 +85,6 @@ public class JpaConfig implements TransactionManagementConfigurer {
         hibernateProperties.setProperty("hibernate.show_sql",Boolean.TRUE.toString());
         localSessionFactoryBean.setHibernateProperties(hibernateProperties);
 
-        return localSessionFactoryBean.getObject();
+        return localSessionFactoryBean;
     }
 }

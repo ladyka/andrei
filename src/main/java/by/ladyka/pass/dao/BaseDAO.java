@@ -8,6 +8,7 @@ import org.hibernate.criterion.Criterion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +18,15 @@ import java.util.List;
 @Transactional
 public class BaseDAO {
 
-	@Autowired
-    private SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 
 	
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+	@Autowired
+	private void sessionFactory(LocalSessionFactoryBean localSessionFactoryBean) {
+		sessionFactory = localSessionFactoryBean.getObject();
+	}
 	
 
     public Object save(Object entity) {

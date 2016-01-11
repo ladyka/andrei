@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * This is RESTfull controller for ui part application
  * Created by Andrei Ladyka on 1/6/2016.
  */
 @RestController
@@ -29,38 +30,29 @@ public class PasswordController extends ExceptionHandlerController {
 
     @RequestMapping(value = "/password", method = RequestMethod.PUT)
     public WebSite create(Principal principal, String siteUrl, String email, String login, String myPassword, String description) {
-        WebSite webSite = new WebSite().setId(-1);
+        WebSite webSite = ps.create(siteUrl, email, login, myPassword, description);
         logger.info("CREATE : " + webSite);
-        return webSite; //ps.create(siteUrl, email, login, myPassword, description);
+        return webSite;
     }
 
     @RequestMapping(value = "/password", method = RequestMethod.GET)
     public List<WebSite> read(Principal principal, String query) {
-        //List<WebSite> l = ps.get(query);
-        List<WebSite> l = new ArrayList<>();
-        WebSite w = new WebSite().setId(-1);
-        w.setSiteUrl(ps.toString());
-        w.setOtherInfo("oi");
-        w.setMypassword("mp");
-        w.setLogin("l");
-        w.setMypassword("p");
-        w.setChangeTime(new Timestamp(System.currentTimeMillis()));
-        l.add(w);
+        List<WebSite> l = ps.get(query);
         logger.info("READ : " + Arrays.toString(l.toArray()));
         return l;
     }
 
     @RequestMapping(value = "/password", method = RequestMethod.POST)
     public WebSite update(Principal principal, int id, String siteUrl, String email, String login, String myPassword, String description) {
-        WebSite webSite = new WebSite().setId(-1);
+        WebSite webSite= ps.edit(id, siteUrl, email, login, myPassword, description);
         logger.info("UPDATE : " + webSite);
-        return webSite; //ps.edit(id, siteUrl, email, login, myPassword, description);
+        return webSite; //
     }
 
     @RequestMapping(value = "/password", method = RequestMethod.DELETE)
     public boolean delete(Principal principal, int id) {
-        WebSite webSite = new WebSite().setId(-1);
-        logger.info("DELETE : " + webSite);
-        return false; //ps.delete(id);
+        Boolean deleteResult = ps.delete(id);
+        logger.info("DELETE : " + id + " " + deleteResult);
+        return deleteResult;
     }
 }
