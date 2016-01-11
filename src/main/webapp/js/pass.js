@@ -67,8 +67,8 @@ $(document).ready(function () {
             var description = $('#otherInfo').val();
             if (checkFields()) {
                 $.ajax({
-                    method: "POST",
-                    url: "password/put",
+                    method: "PUT",
+                    url: "password",
                     data: {
                         siteUrl: siteUrl,
                         email: email,
@@ -102,9 +102,10 @@ $(document).ready(function () {
         confirm: function () {
             var id = $('#id').val();
             $.ajax({
-                method: "POST",
-                url: "password/delete",
+                type: "POST",
+                url: "password",
                 data: {
+                    _method: 'delete',
                     id: id
                 }
             });
@@ -146,7 +147,7 @@ $(document).ready(function () {
             if (id != 0) {
                 $.ajax({
                     method: "POST",
-                    url: "password/update",
+                    url: "password",
                     data: {
                         id : id,
                         siteUrl: siteUrl,
@@ -158,8 +159,8 @@ $(document).ready(function () {
                 });
             } else {
                 $.ajax({
-                    method: "POST",
-                    url: "password/put",
+                    method: "PUT",
+                    url: "password",
                     data: {
                         siteUrl: siteUrl,
                         email: email,
