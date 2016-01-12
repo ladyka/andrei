@@ -8,11 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,8 +37,15 @@ public class PasswordController extends ExceptionHandlerController {
     @RequestMapping(value = "/password", method = RequestMethod.GET)
     public List<WebSite> read(Principal principal, String query) {
         List<WebSite> l = ps.get(query);
-        logger.info("READ : " + Arrays.toString(l.toArray()));
+        logger.info("READ MANY : " + Arrays.toString(l.toArray()));
         return l;
+    }
+
+    @RequestMapping(value = "/password/{id}", method = RequestMethod.GET)
+    public WebSite read(Principal principal, @RequestParam("id") int id) {
+        WebSite w = ps.get(id);
+        logger.info("READ ONE : " + w.toString());
+        return w;
     }
 
     @RequestMapping(value = "/password", method = RequestMethod.POST)
