@@ -5,14 +5,14 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by user on 4.10.15.
  */
-@Service
+@Repository
 public class PasswordDao extends BaseDAO {
 
     @SuppressWarnings( {"unchecked"})
