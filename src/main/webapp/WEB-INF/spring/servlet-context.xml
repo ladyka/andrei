@@ -63,6 +63,7 @@
         <props>
             <prop key="hibernate.dialect">${jdbc.dialect}</prop>
             <prop key="hibernate.show_sql">false</prop>
+            <prop key="ibernate.hbm2ddl.auto">validate</prop>
         </props>
     </property>
 </bean>
