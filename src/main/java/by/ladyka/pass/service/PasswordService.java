@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * Created by user on 4.10.15.
+ * Created by AndreyLadyko on 1/8/2016.
  */
 @Service
 public class PasswordService {
@@ -36,7 +36,7 @@ public class PasswordService {
     }
 
     public WebSite edit(int id, String url, String email, String login, String password, String description) {
-        WebSite webSite = dao.getEntity(WebSite.class,id);
+        WebSite webSite = get(id);
         WebSite w = update(webSite,email,login,password,description,url);
         EmailManager.send(MY_EMAIL,APP_NAME + "[UPDATE]","FROM :\n" + webSite.toString() + "\nTO :\n" + w.toString());
         return w;
@@ -44,7 +44,7 @@ public class PasswordService {
 
     public boolean delete(int id) {
         try {
-            WebSite w = dao.getEntity(WebSite.class,id);
+            WebSite w = get(id);
             EmailManager.send(MY_EMAIL,APP_NAME + "[DELETE]",w.toString());
             return dao.delete(new WebSite().setId(id));
         } catch (Exception ex) {
@@ -63,5 +63,7 @@ public class PasswordService {
         return webSite;
     }
 
-
+    public WebSite get(int id) {
+        return dao.getEntity(WebSite.class,id);
+    }
 }
