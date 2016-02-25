@@ -37,7 +37,42 @@ $(document).ready(function () {
         $('#otherInfo').val("");
         toastr["info"]("Oчищено", "Clear");
     }
-    clearForm();
+
+    function recordOperation(method){
+        var id = $('#id').val();
+        var siteUrl = $('#siteUrl').val();
+        var email = $('#email').val();
+        var login = $('#login').val();
+        var myPassword = $('#mypassword').val();
+        var description = $('#otherInfo').val();
+        $.ajax({
+            method: "POST",
+            type : method,
+            url: "password",
+            data: {
+                id: id,
+                siteUrl: siteUrl,
+                email: email,
+                login: login,
+                myPassword: myPassword,
+                description: description,
+                _method: method
+            }
+        });
+    }
+
+
+    function createRecord() {
+        recordOperation("PUT");
+    }
+
+    function editRecord() {
+        recordOperation("POST");
+    }
+
+    function deleteRecord() {
+        recordOperation("DELETE");
+    }
 
     function reloadData() {
         $('#passwords').bootstrapTable('refresh',
@@ -56,29 +91,15 @@ $(document).ready(function () {
         return (!(($('#siteUrl').val() == "") || ($('#email').val() == "") || ($('#login').val() == "") || ($('#mypassword').val() == "")));
     };
 
+
     $("#create").confirm({
         text: "Are you sure you want to create that record?",
         title: "Confirmation required",
         confirm: function () {
-            var siteUrl = $('#siteUrl').val();
-            var email = $('#email').val();
-            var login = $('#login').val();
-            var myPassword = $('#mypassword').val();
-            var description = $('#otherInfo').val();
             if (checkFields()) {
-                $.ajax({
-                    method: "PUT",
-                    url: "password",
-                    data: {
-                        siteUrl: siteUrl,
-                        email: email,
-                        login: login,
-                        myPassword: myPassword,
-                        description: description
-                    }
-                });
+                createRecord();
                 reloadData();
-                toastr["info"]("Ушло", "Save");
+                toastr["info"]("Ушло", "Create");
             } else {
                 toastr["error"]("Обязательные поля пусты", "Cancel");
             }
@@ -100,15 +121,7 @@ $(document).ready(function () {
         text: "Are you sure you want to delete that record?",
         title: "Confirmation required",
         confirm: function () {
-            var id = $('#id').val();
-            $.ajax({
-                type: "POST",
-                url: "password",
-                data: {
-                    _method: 'delete',
-                    id: id
-                }
-            });
+            deleteRecord();
             reloadData();
             toastr["info"]("Ушло", "Delete");
         },
@@ -123,7 +136,7 @@ $(document).ready(function () {
         dialogClass: "modal-dialog modal-lg" // Bootstrap classes for large modal
     });
 
-    $("#randomPass").click(function() {
+    $("#randomPass").click(function () {
         $('#mypassword').val(Math.random().toString(36).substring(7) +
             Math.random().toString(36).substring(7).toUpperCase() +
             Math.random().toString(36).substring(7) +
@@ -137,41 +150,16 @@ $(document).ready(function () {
         title: "Confirmation required",
         confirm: function () {
             var id = $('#id').val();
-            var siteUrl = $('#siteUrl').val();
-            var email = $('#email').val();
-            var login = $('#login').val();
-            var myPassword = $('#mypassword').val();
-            var description = $('#otherInfo').val();
-
             if (checkFields()) {
-            if (id != 0) {
-                $.ajax({
-                    method: "POST",
-                    url: "password",
-                    data: {
-                        id : id,
-                        siteUrl: siteUrl,
-                        email: email,
-                        login: login,
-                        myPassword: myPassword,
-                        description: description
-                    }
-                });
-            } else {
-                $.ajax({
-                    method: "PUT",
-                    url: "password",
-                    data: {
-                        siteUrl: siteUrl,
-                        email: email,
-                        login: login,
-                        myPassword: myPassword,
-                        description: description
-                    }
-                });
-            }
-            reloadData();
-            toastr["info"]("Ушло", "Save");
+                if (id != 0) {
+                    editRecord();
+                    toastr["info"]("Ушло", "Save");
+                } else {
+                    createRecord();
+                    toastr["info"]("Ушло", "Create !!!!");
+                }
+                reloadData();
+
             } else {
                 toastr["error"]("Обязательные поля пусты", "Cancel");
             }
@@ -193,4 +181,7 @@ $(document).ready(function () {
         height: '600px',
         alwaysVisible: true
     });
+
+
+    clearForm();
 });
