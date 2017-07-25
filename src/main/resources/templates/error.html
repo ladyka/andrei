@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MINIAdminErrorApp" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Error</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+  
+    <link rel="stylesheet" th:href="@{/_css/vendor/angular-material.css}" href="../static/_css/vendor/angular-material.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body>
+    <div>
+      <md-toolbar class="md-primary">
+        <h1 class="md-toolbar-tools md-toolbar-tools-bottom">
+          <span flex></span>
+          <span class="md-flex">LADYKA.tk Admin Tools</span>
+        </h1>
+      </md-toolbar>
+
+      <md-content layout="row" layout-align="center center" layout-padding>
+        <span flex></span>
+        <md-content layout="column" layout-align="start start" layout-padding>
+          <h1>WHOA! Something went wrong.</h1>
+          <h4>Let's figure out what it is...</h4>
+
+				  <p th:if="${url}"><b>Page:</b> <span th:text="${url}">Page URL</span></p>
+          <p th:if="${timestamp}" id='created'><b>Occurred:</b> <span th:text="${timestamp}">Timestamp</span></p>
+					<p th:if="${status}">
+					  <b>Response Status:</b> <span th:text="${status}">status-code</span> <span th:if="${error}" th:text="'('+${error}+')'">error ...</span>
+					</p>
+
+					<div th:if="${exception} or (${message} and ${message.length() != 0})">
+						<b>Cause:</b> <span th:if="${exception}" th:text="${exception}">exception ...</span>
+						<span th:if="${message} and ${message.length() != 0}" th:text="${message}">message ...</span>
+					</div>
+
+          <p th:unless="${exception} or (${message} and ${message.length() != 0})">Cause unknown (no exception details available)</p>
+        </md-content>
+        <span flex></span>
+      </md-content>
+    </div>
+
+    <script th:src="@{/_js/vendor/angular.js}" src="../static/_js/vendor/angular.js"></script>
+    <script th:src="@{/_js/vendor/angular-animate.js}" src="../static/_js/vendor/angular-animate.js"></script>
+    <script th:src="@{/_js/vendor/angular-aria.js}" src="../static/_js/vendor/angular-aria.js"></script>
+    <script th:src="@{/_js/vendor/angular-material.js}" src="../static/_js/vendor/angular-material.js"></script>
+    <script th:src="@{/_js/error.js}" src="../static/_js/error.js"></script>
+  
+  </body>
+</html>

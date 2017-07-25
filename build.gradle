@@ -1,0 +1,233 @@
+buildscript {
+    ext {
+        springBootVersion = '1.4.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE")
+        classpath("com.moowork.gradle:gradle-node-plugin:0.12")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'io.spring.dependency-management'
+//apply plugin: 'war'
+apply plugin: 'com.moowork.node'
+
+jar {
+    baseName = 'ladykatk'
+    version = '0.1'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+configurations {
+    providedRuntime
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-aop")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    compile("org.springframework.boot:spring-boot-starter-integration")
+    compile("org.springframework.boot:spring-boot-starter-jta-atomikos")
+    compile("org.springframework.boot:spring-boot-starter-mail")
+    compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.thymeleaf:thymeleaf:3.0.0.RELEASE") //TODO remove
+    compile("org.thymeleaf:thymeleaf-spring4:3.0.0.RELEASE") //TODO remove
+    compile("org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.0.RELEASE") //TODO remove
+    compile("org.apache.commons:commons-lang3:3.4")
+    compile("org.jadira.usertype:usertype.core:5.0.0.GA")
+    compile("org.jadira.usertype:usertype.extended:5.0.0.GA")
+    compile("net.sourceforge.nekohtml:nekohtml:1.9.22")
+    compile("org.projectlombok:lombok:1.16.8")
+    compile group: 'org.hibernate', name: 'hibernate-java8', version: '5.1.2.Final'
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.7.4")
+    compile 'org.springframework.boot:spring-boot-starter-test:1.2.5.RELEASE'
+    compile 'org.springframework.security:spring-security-test:4.1.0.RELEASE'
+    compile("io.springfox:springfox-swagger2:2.4.0")
+    compile("io.springfox:springfox-bean-validators:2.4.0")
+    compile('io.springfox:springfox-swagger-ui:2.4.0')
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    compile group: 'mysql', name: 'mysql-connector-java', version: '6.0.5'
+
+
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.testng:testng:6.9.10")
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+// ECLIPSE SETUP //
+eclipse {
+    classpath {
+        downloadJavadoc = true
+        downloadSources = true
+        containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+        containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+    }
+}
+
+// NODE AND BOWER SETUP //
+node {
+    version = '5.9.1'
+    npmVersion = '3.8.3'
+    download = true
+    workDir = file("${project.buildDir}/nodejs")
+}
+
+task npmCacheConfig(type: NpmTask) {
+    description = "Configure the NPM cache"
+    def npmCacheDir = "${gradle.getGradleUserHomeDir()}/caches/npm"
+    outputs.files file(npmCacheDir)
+    args = ['config', 'set', 'cache', npmCacheDir]
+}
+
+task npmPackages(type: NpmTask, dependsOn: npmCacheConfig) {
+    description = "Install Node.js packages"
+    args = ['install']
+    inputs.files file('package.json')
+    def folder = file('node_modules')
+    if (!folder.exists()) {
+        folder.mkdirs()
+    }
+    outputs.files folder
+}
+
+task bowerInstall(type: NodeTask) {
+    script = file('node_modules/bower/bin/bower')
+    args = [
+            "--config.storage.cache=${gradle.getGradleUserHomeDir()}/caches/bower/cache",
+            "--config.storage.packages=${gradle.getGradleUserHomeDir()}/caches/bower/packages",
+            "--config.storage.registry=${gradle.getGradleUserHomeDir()}/caches/bower/registry",
+            'install'
+    ]
+    inputs.files file('bower.json')
+    def folder = file('src/generated/bower_components')
+    if (!folder.exists()) {
+        folder.mkdirs()
+    }
+    outputs.files folder
+    dependsOn npmPackages
+}
+
+task bowerUpdate(type: NodeTask) {
+    script = file('node_modules/bower/bin/bower')
+    args = [
+            "--config.storage.cache=${gradle.getGradleUserHomeDir()}/caches/bower/cache",
+            "--config.storage.packages=${gradle.getGradleUserHomeDir()}/caches/bower/packages",
+            "--config.storage.registry=${gradle.getGradleUserHomeDir()}/caches/bower/registry",
+            'update'
+    ]
+    inputs.files file('bower.json')
+    def folder = file('src/generated/bower_components')
+    if (!folder.exists()) {
+        folder.mkdirs()
+    }
+    outputs.files folder
+    dependsOn bowerInstall
+}
+
+task bowerSyncJavascript(type: Sync) {
+    def folder = file('src/generated/bower_components')
+    if (!folder.exists()) {
+        folder.mkdirs()
+    }
+    def jsNames = []
+    new File("${projectDir}/src/generated/bower_components").eachDir() { dir ->
+        jsNames << dir.getName()
+    }
+    jsNames.each() { dir ->
+        from("src/generated/bower_components/${dir}/") {
+            include '**/*.js'
+            exclude '**/dist/'
+            exclude '**/demos/'
+            exclude '**/src/'
+            exclude '**/source/'
+            exclude '**/modules/'
+            exclude '**/min/'
+            exclude '**/templates/'
+            exclude '**/locale/'
+            exclude '**/index.js'
+            exclude '**/ng*.js'
+            exclude '**/Gruntfile.js'
+            into "/"
+            includeEmptyDirs false
+        }
+        from("src/generated/bower_components/${dir}/dist/") {
+            include '**/*.js'
+            exclude '**/demos/'
+            exclude '**/source/'
+            exclude '**/modules/'
+            exclude '**/index.js'
+            exclude '**/ng*.js'
+            exclude '**/Gruntfile.js'
+            into "/"
+            includeEmptyDirs false
+        }
+    }
+    into "src/main/resources/static/_js/vendor"
+    includeEmptyDirs false
+    dependsOn bowerInstall
+}
+
+task bowerSyncStylesheets(type: Sync) {
+    def folder = file('src/generated/bower_components')
+    if (!folder.exists()) {
+        folder.mkdirs()
+    }
+    def cssNames = []
+    new File("${projectDir}/src/generated/bower_components").eachDir() { dir ->
+        cssNames << dir.getName()
+    }
+    cssNames.each() { dir ->
+        from("src/generated/bower_components/${dir}/") {
+            include '**/*.css'
+            exclude '**/demos/'
+            exclude '**/source/'
+            exclude '**/modules/'
+            exclude '**/sprites/'
+            into "/"
+            includeEmptyDirs false
+        }
+    }
+    into "src/main/resources/static/_css/vendor"
+    includeEmptyDirs false
+    dependsOn bowerInstall
+}
+
+task bowerPackages() {
+    dependsOn bowerSyncJavascript, bowerSyncStylesheets
+}
+
+processResources.dependsOn bowerPackages
+//assetCompile.dependsOn bowerPackages
+
+clean.delete << file('src/main/resources/static/_js/vendor')
+clean.delete << file('src/main/resources/static/_css/vendor')
+clean.delete << file('src/main/resources/static/_img/vendor')
+clean.delete << file('node_modules')
+clean.delete << file('src/generated/bower_components')
+
+// GRADLE TASK SETUP //
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.12'
+}

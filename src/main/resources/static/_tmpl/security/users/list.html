@@ -1,0 +1,23 @@
+<h2 class="md-display-1">User Management</h2>
+
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h3 class="ng-binding">Users</h3>
+        <span flex="" class="flex"></span>
+        <button class="md-icon-button md-button" type="button" ng-click="newUser()" aria-label="New User">
+            <md-icon md-font-set="material-icons" class="md-48">person_add</md-icon>
+        </button>
+    </div>
+</md-toolbar>
+<md-list ng-cloak>
+
+    <md-list-item ng-repeat="user in users | orderBy : 'position'" class="noright">
+        <p class="ng-binding" layout>
+            <span flex="20">{{user.firstName}} {{user.lastName}}</span>
+            <span flex="20">{{user.username}}</span>
+        </p>
+        <md-icon ng-click="editUser(user)" aria-label="Edit Email" class="md-secondary">mode_edit</md-icon>
+        <md-icon ng-click="deleteUser(user)" aria-label="Delete User" class="md-secondary">delete</md-icon>
+    </md-list-item>
+
+</md-list>

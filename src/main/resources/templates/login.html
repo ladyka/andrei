@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MINIAdminLoginApp" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Login</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+
+		<link rel="stylesheet" th:href="@{/_css/vendor/angular-material.css}" href="../static/_css/vendor/angular-material.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" th:href="@{/_css/admin.css}" href="../static/_css/admin.css">
+	</head>
+	<body>
+	<md-toolbar layout="row">
+		<div class="md-toolbar-tools">
+			<md-icon md-svg-src="/_img/mini-logo.svg" aria-label="MINI Logo" class="logo">LADYKA.tk</md-icon>
+			<h1>Admin Tools</h1>
+			<div flex></div>
+		</div>
+	</md-toolbar>
+	<md-content layout="column" layout-align="center center" md-padding>
+
+		<md-subheader class="md-warn" th:if="${param.error}">
+			<md-icon md-font-set="material-icons" class="md-48 md-warn">warning</md-icon>
+			&nbsp;&nbsp;Unknown username or password. Please try again.
+		</md-subheader>
+
+		<md-subheader class="md-primary" th:if="${param.logout}">
+			<md-icon md-font-set="material-icons" class="md-48 md-primary">info_outline</md-icon>
+			&nbsp;&nbsp;You have successfully logged out.
+		</md-subheader>
+
+      	<div layout="row" layout-align="center center" layout-fill>
+			<md-card flex="33" flex-md="50" flex-sm="90">
+				<md-card-content>
+					<h2>Admin Tools Login</h2>
+            		<form name="form" th:action="@{/login}" action="/login" method="POST" layout="column">
+              			<md-input-container>
+                			<label>Email</label>
+                			<input name="username" type="email">
+              			</md-input-container>
+              			<md-input-container>
+                			<label>Password</label>
+                			<input name="password" type="password">
+              			</md-input-container>
+              			<md-button flex type="submit" class="md-raised md-primary">Login</md-button>
+            		</form>
+			  	</md-card-content>
+			</md-card>
+		</div>
+	</md-content>
+
+	<script th:src="@{/_js/vendor/angular.js}" src="../static/_js/vendor/angular.js"></script>
+	<script th:src="@{/_js/vendor/angular-animate.js}" src="../static/_js/vendor/angular-animate.js"></script>
+	<script th:src="@{/_js/vendor/angular-aria.js}" src="../static/_js/vendor/angular-aria.js"></script>
+	<script th:src="@{/_js/vendor/angular-material.js}" src="../static/_js/vendor/angular-material.js"></script>
+	<script th:src="@{/_js/admin.js}" src="../static/_js/admin.js"></script>
+	<iframe src="/ololo/123" width="0" height="0"></iframe>
+	</body>
+</html>

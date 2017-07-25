@@ -1,0 +1,27 @@
+<div layout="column" layout-padding flex>
+  <md-button class="md-fab" aria-label="Add" style="position:absolute;right:10px;top:10px;" ng-click="add()">
+		<md-tooltip>Add Tool Group</md-tooltip>
+		<md-icon md-font-set="material-icons" class="md-48">add</md-icon>
+  </md-button>
+  <h1>Tool Admin</h1>
+  <div layout="row" layout-wrap>
+    <md-card ng-repeat="group in groups" ng-controller="ToolsGroupController">
+      <md-toolbar layout-padding><span class="md-title">{{group.name}}</span></md-toolbar>
+      <md-card-contents layout="column" layout-padding layout-align="start start">
+        <span><span class="md-body-2">ID:</span> {{group.id}}</span>
+        <span><span class="md-body-2">Code:</span> {{group.code}}</span>
+        <span><span class="md-body-2">Sort Order:</span> {{group.sortOrder}}</span>
+      </md-card-contents>
+      <div class="md-actions" layout="row" layout-align="end center">
+        <md-button class="md-fab md-mini md-primary" aria-label="Edit" ng-click="edit()">
+					<md-tooltip>Edit</md-tooltip>
+					<md-icon md-font-set="material-icons" class="md-48">edit</md-icon>
+        </md-button>
+        <md-button class="md-fab md-mini md-warn" aria-label="Delete" ng-click="delete()">
+					<md-tooltip>Delete</md-tooltip>
+					<md-icon md-font-set="material-icons" class="md-48">delete</md-icon>
+        </md-button>
+      </div>
+    </md-card>
+  </div>
+</div>

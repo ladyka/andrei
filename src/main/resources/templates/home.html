@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MINIAdminApp" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Admin</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+  
+    <link rel="stylesheet" th:href="@{/_css/vendor/animate.css}" href="../static/_css/vendor/animate.css">
+    <link rel="stylesheet" th:href="@{/_css/vendor/angular-material.css}" href="../static/_css/vendor/angular-material.css">
+    <link rel="stylesheet" th:href="@{/_css/admin.css}" href="../static/_css/admin.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  </head>
+  <body ng-controller="MainController" layout="column">
+
+    <md-toolbar layout="row">
+      <div class="md-toolbar-tools">
+        <md-button ng-click="toggleMainMenu()" hide-gt-sm class="md-icon-button">
+          <md-icon aria-label="Menu" md-font-set="material-icons" class="md-48">menu</md-icon>
+        </md-button>
+        <md-button>
+          <md-icon md-svg-src="/_img/mini-logo.svg" aria-label="MINI Logo" class="logo">LADYKA.tk</md-icon>
+        </md-button>
+        <h1>Admin Tools</h1>
+        <div flex></div>
+        <span ng-if="currentGroup != null && currentTool != null">
+          <span class="md-caption">Current Tool: </span>
+          <span class="md-caption">{{currentTool.name}}</span>
+        </span>
+      </div>
+    </md-toolbar>
+
+    <div layout="row" flex>
+
+      <md-sidenav layout="column"
+                  class="md-sidenav-left md-whiteframe-z2"
+                  md-component-id="mainNav"
+                  md-is-locked-open="$mdMedia('gt-md')">
+        <md-content flex=""
+                    role="navigation"
+                    class="md-default-theme"
+                    ng-controller="NavController"
+                    ng-cloak>
+          <section ng-repeat="group in groups">
+            <md-subheader class="md-primary">{{group.name}}</md-subheader>
+            <md-list>
+
+              <md-list-item ng-repeat="tool in group.tools" ui-sref="{{group.code+'.'+tool.code}}" class="noright">
+                <md-icon>{{tool.iconName}}</md-icon>
+                <p>{{ tool.name }} </p>
+              </md-list-item>
+
+            </md-list>
+          </section>
+          <section>
+            <md-subheader class="md-primary" th:text="${username}">Username</md-subheader>
+            <md-list>
+              <md-list-item ng-click="logout()">
+                <md-icon aria-label="Logout" md-font-set="material-icons">reply</md-icon>
+                <p> Logout</p>
+              </md-list-item>
+            </md-list>
+          </section>
+        </md-content>
+      </md-sidenav>
+
+      <div layout="column" flex id="content">
+        <md-content layout="column" flex class="md-padding" ui-view></md-content>
+      </div>
+
+    </div>
+
+    <script th:src="@{/_js/vendor/angular.js}" src="../static/_js/vendor/angular.js"></script>
+    <script th:src="@{/_js/vendor/release/angular-ui-router.js}" src="../static/_js/vendor/release/angular-ui-router.js"></script>
+    <script th:src="@{/_js/vendor/angular-animate.js}" src="../static/_js/vendor/angular-animate.js"></script>
+    <script th:src="@{/_js/vendor/angular-aria.js}" src="../static/_js/vendor/angular-aria.js"></script>
+    <script th:src="@{/_js/vendor/angular-material.js}" src="../static/_js/vendor/angular-material.js"></script>
+    <script th:src="@{/_js/vendor/ocLazyLoad.js}" src="../static/_js/vendor/ocLazyLoad.js"></script>
+    <script th:src="@{/_js/vendor/moment.js}" src="../static/_js/vendor/moment.js"></script>
+    <script th:src="@{/_js/main.js}" src="../static/_js/main.js"></script>
+
+    <script th:src="@{/_js/security/services.js}" src="../static/_js/security/services.js"></script>
+    <script th:src="@{/_js/apiService.js}" src="../static/_js/apiService.js"></script>
+
+    <script th:src="@{/_js/security/users/users.js}" src="../static/_js/security/users/users.js"></script>
+
+  
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MINIAdminApp" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <link rel="stylesheet" th:href="@{/jquery-p-common/css/bootstrap.min.css}" href="../static/jquery-p-common/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/jquery-p-common/css/toastr.min.css}" href="../static/jquery-p-common/css/toastr.min.css">
+
+    <meta charset="UTF-8">
+    <title>My Events</title>
+</head>
+<body>
+
+
+<div class="col-lg-9" id="grid-events">
+    <div id="event-table">
+        <table
+                data-cache="false"
+                data-search="true"
+                data-show-columns="true"
+                data-sort-name="time"
+                data-sort-order="asc"
+                data-toggle="table"
+                data-url="/api/event"
+                id="events">
+            <thead>
+            <tr>
+                <th data-field="description">Description</th>
+                <th data-field="id">ID</th>
+                <th data-field="time">Chage Time</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="col-lg-3">
+    <form role="form">
+        <div class="form-group">
+            <input type="hidden" class="form-control" id="id">
+            <label for="description">Description:</label>
+            <textarea class="form-control" rows="10" id="description" name="description"></textarea>
+        </div>
+        <button type="button" class="btn btn-primary" id="clear">Clear</button>
+        <button type="button" class="btn btn-primary" id="create">Create</button>
+        <button type="button" class="btn btn-primary" id="save">Save</button>
+        <button type="button" class="btn btn-primary delete" id="delete">Delete</button>
+    </form>
+</div>
+<script th:src="@{/jquery-p-common/js/jquery-2.1.4.js}" src="../static/jquery-p-common/js/jquery-2.1.4.js"></script>
+<script th:src="@{/jquery-p-common/js/bootstrap.js}" src="../static/jquery-p-common/js/bootstrap.js"></script>
+<script th:src="@{/jquery-p-common/js/bootstrap-table.js}" src="../static/jquery-p-common/js/bootstrap-table.js"></script>
+<script th:src="@{/jquery-p-common/js/bootstrap-table-ru-RU.js}" src="../static/jquery-p-common/js/bootstrap-table-ru-RU.js"></script>
+<script th:src="@{/jquery-p-common/js/jquery.slimscroll.min.js}" src="../static/jquery-p-common/js/jquery.slimscroll.min.js"></script>
+<script th:src="@{/jquery-p-common/js/toastr.min.js}" src="../static/jquery-p-common/js/toastr.min.js"></script>
+<script th:src="@{/jquery-p-common/js/jquery.confirm.js}" src="../static/jquery-p-common/js/jquery.confirm.js"></script>
+<script th:src="@{/_js/events/events.js}" src="../static/_js/events/events.js"></script>
+</body>
+</html>

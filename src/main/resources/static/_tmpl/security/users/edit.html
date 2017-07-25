@@ -1,0 +1,66 @@
+<div>
+    <h2 class="md-display-2">Edit User</h2>
+</div>
+
+<div>
+    <h2 class="md-display-1">{{userData.firstName}}'s Information</h2>
+</div>
+
+<div layout="row" layout-align="center center" layout-fill>
+	<md-card flex="100">
+		<md-card-content>
+    		<form name="form" ng-submit="saveUser()" layout="column">
+      			<md-input-container>
+        			<label>First name</label>
+        			<input 	name="firstName"
+        					type="text"
+        					ng-model="userData.firstName"
+        			>
+      			</md-input-container>
+      			<md-input-container>
+        			<label>Last name</label>
+        			<input 	name="username"
+        					type="text"
+        					ng-model="userData.lastName"
+        			>
+      			</md-input-container>
+      			<md-input-container>
+        			<label>Username</label>
+        			<input 	name="username"
+        					type="email"
+        					ng-model="userData.username"
+        			>
+      			</md-input-container>
+      			<md-input-container>
+        			<label>Password</label>
+        			<input 	name="password"
+        					type="password"
+        					ng-model="userData.password"
+        			>
+      			</md-input-container>
+      			<md-button flex type="submit" class="md-raised md-primary">Submit</md-button>
+    		</form>
+	  	</md-card-content>
+	</md-card>
+</div>
+
+<div>
+    <h2 class="md-display-1">{{userData.firstName}}'s Groups</h2>
+</div>
+
+<div layout="row" layout-align="center center" layout-fill>
+	<md-card flex="100">
+		<md-card-content>
+    		<form name="form" ng-submit="saveUserGroups()" layout="column">
+				<md-checkbox 
+					ng-repeat="userGroup in userGroups"
+					aria-label="{{userGroup.name}}"
+					ng-model="userGroup.hasAccess"
+				>
+          			{{userGroup.name}} &ndash; {{userGroup.description}} {{userGroup.hasAccess}}
+        		</md-checkbox>
+      			<md-button flex type="submit" class="md-raised md-primary">Submit</md-button>
+    		</form>
+	  	</md-card-content>
+	</md-card>
+</div>

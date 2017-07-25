@@ -1,0 +1,13 @@
+{
+  "engines": {
+    "node": "0.12.x"
+  },
+  "name": "ladykatk",
+  "private": true,
+  "version": "0.0.1-SNAPSHOT",
+  "description": "LADYKA.tk Admin Tools",
+  "main": "",
+  "dependencies": {
+    "bower": "^1.4.0"
+  }
+}
